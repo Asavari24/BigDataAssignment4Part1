@@ -1,0 +1,12 @@
+numpy
+pandas
+boto3
+python-dotenv
+requests
+webdriver_manager
+pymupdf4llm
+litellm
+redis
+uvicorn
+fastapi
+streamlit
