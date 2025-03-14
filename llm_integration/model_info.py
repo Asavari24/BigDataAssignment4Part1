@@ -9,7 +9,7 @@ def model_name(model_type):
         model='claude-3-7-sonnet-20250219'
     elif model_type == 'Grok':
         model='xai/grok-2-latest'
-    else:
+    elif model_type == 'Gemini-Flash':
         model='gemini/gemini-2.0-flash-exp'
 
     return model
@@ -37,7 +37,7 @@ def pricing(selected_model, input_tokens, output_tokens):
         output_tokens_total = output_tokens * (10 / 1000000)
 
 
-    else:
+    elif selected_model == 'Gemini-Flash':
         input_tokens_total = input_tokens * (0.1 / 1000000)
         output_tokens_total = output_tokens * (0.4 / 1000000)
 

@@ -15,7 +15,7 @@ if page == "File Selection":
 
     st.subheader("Select an Input Source")
 
-    input_source = st.selectbox('Select parsed PDF or upload new PDF', ["Select Previously Parsed PDF", "Upload New PDF"])
+    input_source = st.selectbox('Select parsed PDF or upload new PDF', ["Upload a New PDF", "Select Previously Parsed PDF"])
 
     st.divider()
 
@@ -45,14 +45,14 @@ if page == "File Selection":
 
 
 
-    elif input_source == "Upload New PDF":
+    elif input_source == "Upload a New PDF":
 
         st.subheader("Upload a New PDF")
 
         uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 
         if st.button("Upload PDF file"):
-            if input_source == "Upload New PDF" and uploaded_file:
+            if input_source == "Upload a New PDF" and uploaded_file:
                 st.info("Uploading PDF for processing...")
                 files = {"file": uploaded_file}
 
@@ -95,8 +95,8 @@ else:
 
         st.divider()
     
-        st.write(f'Total Input Token: {input_tokens}')
-        st.write(f'Total Output Token: {output_tokens}')
+        st.write(f'Total Input Tokens: {input_tokens}')
+        st.write(f'Total Output Tokens: {output_tokens}')
         st.write(f'Total Price of this Query: ${total}')
 
 
@@ -121,8 +121,8 @@ else:
 
         st.divider()
     
-        st.write(f'Total Input Token: {input_tokens}')
-        st.write(f'Total Output Token: {output_tokens}')
+        st.write(f'Total Input Tokens: {input_tokens}')
+        st.write(f'Total Output Tokens: {output_tokens}')
         st.write(f'Total Price of this Query: ${total}')
 
 
