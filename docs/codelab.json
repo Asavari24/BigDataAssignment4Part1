@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2025-03-14T12:55:41-04:00",
+  "id": "pdf-ai-assistant",
+  "duration": 0,
+  "title": "PDF AI Assistant - Codelab",
+  "authors": "Hishita Thakkar",
+  "summary": "PDF AI Assistant",
+  "source": "llm_codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "dataengineering",
+    "cloud",
+    "aws",
+    "llm"
+  ],
+  "tags": [],
+  "feedback": "https://github.com/Asavari24/BigDataAssignment4Part1/issues",
+  "url": "pdf-ai-assistant"
+}
