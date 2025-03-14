@@ -5,6 +5,8 @@
 ## Project Summary
 The **PDF AI Assistant** enhances document interaction by allowing users to upload, summarize, and ask questions about PDFs using Large Language Models (LLMs). This system is built with FastAPI for backend processing, Streamlit for the user interface, LiteLLM for efficient API interactions, and Redis for caching. The entire application is deployed using Docker Compose for seamless cloud deployment.
 
+**Codelab**: https://asavari24.github.io/BigDataAssignment4Part1/#0
+
 ## Overview
 The system follows a structured approach:
 
