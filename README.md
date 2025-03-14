@@ -47,7 +47,7 @@ The system follows a structured approach:
 
 ## System Architecture
 
-![PDF AI Assistant Architecture](docs/architecture_diagram.png)
+![PDF AI Assistant Architecture](docs/pdf_ai_assistant_architecture.png)
 
 **Frontend:** Streamlit UI for interactive user engagement.
 
