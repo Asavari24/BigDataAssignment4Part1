@@ -46,6 +46,9 @@ The system follows a structured approach:
 - Redis is utilized for temporary caching of processed content.
 
 ## System Architecture
+
+![PDF AI Assistant Architecture](docs/architecture_diagram.png)
+
 **Frontend:** Streamlit UI for interactive user engagement.
 
 **Backend:** FastAPI for API endpoints handling document selection, uploads, summarization, and question-answering.
