@@ -1,0 +1,204 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>PDF AI Assistant - Codelab</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="pdf-ai-assistant"
+                  title="PDF AI Assistant - Codelab"
+                  environment="web"
+                  feedback-link="https://github.com/Asavari24/BigDataAssignment4Part1/issues">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <h2 is-upgraded><strong>What You&#39;ll Build</strong></h2>
+<p>In this Codelab, you will learn how to set up and deploy a <strong>PDF AI Assistant</strong> that allows users to upload, summarize, and ask questions about PDF documents using Large Language Models (LLMs). The system is built with <strong>FastAPI</strong> for backend processing, <strong>Streamlit</strong> for frontend interaction, <strong>LiteLLM</strong> for LLM API management, and <strong>Redis &amp; S3</strong> for caching and storage.</p>
+<h2 class="checklist" is-upgraded><strong>What You&#39;ll Learn</strong></h2>
+<ul class="checklist">
+<li>How to integrate <strong>FastAPI</strong> with Streamlit.</li>
+<li>How to process PDFs and extract content.</li>
+<li>How to use <strong>LiteLLM</strong> to interact with different LLMs (GPT-4o, Claude, Gemini, DeepSeek, Grok).</li>
+<li>How to cache and store PDF data efficiently using Redis and AWS S3.</li>
+<li>How to deploy the entire system using <strong>Docker Compose</strong>.</li>
+</ul>
+<h2 is-upgraded><strong>Prerequisites</strong></h2>
+<ul>
+<li>Basic understanding of Python &amp; FastAPI.</li>
+<li>Experience with Streamlit for UI development.</li>
+<li>Docker &amp; AWS setup knowledge.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 1: Clone the Repository" duration="0">
+        <p>First, clone the repository containing the project files.</p>
+<pre><code language="language-sh" class="language-sh"> git clone https://github.com/your-repo/pdf-ai-assistant.git
+ cd pdf-ai-assistant
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 2: Setup the Environment" duration="0">
+        <p>Create a Python virtual environment and install dependencies.</p>
+<pre><code language="language-sh" class="language-sh">python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+pip install -r requirements.txt
+</code></pre>
+<p>Create a <strong>.env</strong> file with your API keys:</p>
+<pre><code language="language-sh" class="language-sh">OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=your_aws_region
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 3: Backend Development (FastAPI)" duration="0">
+        <p>We developed a <strong>FastAPI backend</strong> with multiple endpoints for handling PDF processing and LLM interactions.</p>
+<h2 is-upgraded><strong>Key Backend Features:</strong></h2>
+<ul>
+<li><strong>List Markdown Files</strong>: Retrieve stored markdown file names from S3.</li>
+<li><strong>Select PDF Content</strong>: Fetches parsed markdown from previously processed PDFs.</li>
+<li><strong>Upload PDF</strong>: Uploads a new PDF, processes its content, extracts text, images, and tables, and stores it in S3.</li>
+<li><strong>Summarization API</strong>: Calls the LiteLLM API to generate document summaries.</li>
+<li><strong>Q&amp;A API</strong>: Allows users to ask questions based on document context.</li>
+<li><strong>Pricing API</strong>: Calculates and returns estimated cost based on LLM token usage.</li>
+</ul>
+<h2 is-upgraded><strong>Start the FastAPI Backend:</strong></h2>
+<pre><code language="language-sh" class="language-sh">uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+</code></pre>
+<p>Once running, visit <code>http://127.0.0.1:8000/docs</code> to explore API endpoints.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 4: Frontend Development (Streamlit)" duration="0">
+        <p>The <strong>Streamlit UI</strong> provides an interactive way to:</p>
+<ul>
+<li>Select and upload PDFs.</li>
+<li>Choose a preferred LLM model.</li>
+<li>View document summaries.</li>
+<li>Ask questions about the document.</li>
+<li>Display token usage and cost estimations.</li>
+</ul>
+<h2 is-upgraded><strong>Start the Streamlit Frontend:</strong></h2>
+<pre><code language="language-sh" class="language-sh">streamlit run app.py
+</code></pre>
+<p>The UI will open in your browser at <code>http://localhost:8501/</code>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 5: LLM Integration with LiteLLM" duration="0">
+        <p>We integrated <strong>LiteLLM</strong> for seamless API access to multiple LLM providers. This module handles:</p>
+<ul>
+<li><strong>Model Selection</strong>: GPT-4o, Claude, Gemini, DeepSeek, Grok.</li>
+<li><strong>API Calls</strong>: Sending document context and user queries to the LLM.</li>
+<li><strong>Token Pricing Calculation</strong>: Returns the cost estimate for each query.</li>
+<li><strong>Error Handling</strong>: Handles API failures gracefully.</li>
+</ul>
+<h2 is-upgraded><strong>Example LLM Interaction Code:</strong></h2>
+<pre><code language="language-python" class="language-python">from litellm import completion
+
+def generate_summary(context, model_type):
+    messages = [
+        {&#34;role&#34;: &#34;assistant&#34;, &#34;content&#34;: context},
+        {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;Give a brief summary of the context provided.&#34;}
+    ]
+    return completion(model=model_type, messages=messages)
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 6: Redis Caching for Performance Optimization" duration="0">
+        <p>We use <strong>Redis</strong> to store extracted PDF content and summaries, reducing redundant API calls and improving response time.</p>
+<h2 is-upgraded><strong>Start Redis Server:</strong></h2>
+<pre><code language="language-sh" class="language-sh">redis-server
+</code></pre>
+<h2 is-upgraded><strong>Cache Handling Code in FastAPI:</strong></h2>
+<pre><code language="language-python" class="language-python">from redis import Redis
+
+redis_client = Redis(host=&#39;localhost&#39;, port=6379, db=0)
+redis_client.set(&#34;pdf_content&#34;, extracted_text)
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 7: Deployment with Docker Compose" duration="0">
+        <p>To deploy the entire system, use <strong>Docker Compose</strong>:</p>
+<h2 is-upgraded><strong>Docker Setup:</strong></h2>
+<ol type="1">
+<li>Create a <code>Dockerfile</code> for the FastAPI backend and Streamlit frontend.</li>
+<li>Define a <code>docker-compose.yml</code> to run both services along with Redis.</li>
+</ol>
+<h2 is-upgraded><strong>Build &amp; Run Containers:</strong></h2>
+<pre><code language="language-sh" class="language-sh">docker-compose up --build
+</code></pre>
+<p>The application will be accessible at:</p>
+<ul>
+<li><strong>Streamlit UI: </strong><code>http://localhost:8501</code></li>
+<li><strong>FastAPI Backend: </strong><code>http://localhost:8000/docs</code></li>
+</ul>
+<p>To stop the containers:</p>
+<pre><code language="language-sh" class="language-sh">docker-compose down
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Step 8: Key Takeaways" duration="0">
+        <p>✅ <strong>FastAPI &amp; Streamlit</strong> integration for interactive document processing. ✅ <strong>LiteLLM</strong> for seamless interaction with multiple LLMs. ✅ <strong>Redis caching</strong> for optimized performance. ✅ <strong>Docker-based deployment</strong> for scalability. ✅ <strong>AWS S3</strong> storage for long-term file management.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Conclusion" duration="0">
+        <p>By completing this Codelab, you have successfully built an AI-powered PDF Assistant that enables users to process and interact with documents efficiently using LLMs. This project can be extended to support additional models, improved caching, and enterprise deployment strategies.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Resources" duration="0">
+        <ul>
+<li><a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI Documentation</a></li>
+<li><a href="https://docs.streamlit.io/" target="_blank">Streamlit Documentation</a></li>
+<li><a href="https://docs.litellm.ai/" target="_blank">LiteLLM API Docs</a></li>
+<li><a href="https://docs.docker.com/" target="_blank">Docker Documentation</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
